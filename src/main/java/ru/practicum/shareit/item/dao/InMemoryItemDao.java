@@ -39,13 +39,13 @@ public class InMemoryItemDao implements ItemDao {
 
     @Override
     public List<Item> searchItems(String searchString) {
-        if(searchString.isEmpty()){
+        if (searchString.isEmpty()) {
             return List.of();
         }
         return storage.values().stream()
                 .filter(item -> ((item.getName() != null && item.getName().toUpperCase().contains(searchString)) ||
                         (item.getDescription() != null && item.getDescription().toUpperCase().contains(searchString)))
-                && (item.getAvailable() != null && item.getAvailable()))
+                        && (item.getAvailable() != null && item.getAvailable()))
                 .toList();
     }
 
