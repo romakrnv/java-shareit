@@ -16,9 +16,6 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import java.util.List;
 import java.util.Map;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor

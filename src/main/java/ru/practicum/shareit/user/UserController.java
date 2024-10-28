@@ -14,9 +14,6 @@ import ru.practicum.shareit.user.dto.UserDto;
 
 import java.util.Map;
 
-/**
- * TODO Sprint add-controllers.
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/users")
