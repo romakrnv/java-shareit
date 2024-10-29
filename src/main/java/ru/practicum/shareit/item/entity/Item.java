@@ -1,16 +1,16 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.entity;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.entity.User;
 
 @Data
 public class Item {
     private Long id;
-    @NotEmpty
+    @NotBlank
     private String name;
-    @NotEmpty
+    @NotBlank
     private String description;
     @NotNull
     private Boolean available;

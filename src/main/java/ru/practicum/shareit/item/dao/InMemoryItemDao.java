@@ -2,7 +2,7 @@ package ru.practicum.shareit.item.dao;
 
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.item.Item;
+import ru.practicum.shareit.item.entity.Item;
 
 import java.util.HashMap;
 import java.util.List;

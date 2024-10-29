@@ -1,14 +1,15 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.user.entity;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class User {
     private Long id;
-    @NotEmpty
+    @NotBlank
     private String name;
-    @NotEmpty @Email
+    @NotBlank
+    @Email
     private String email;
 }

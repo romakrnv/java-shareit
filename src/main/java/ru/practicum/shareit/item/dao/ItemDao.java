@@ -1,6 +1,6 @@
 package ru.practicum.shareit.item.dao;
 
-import ru.practicum.shareit.item.Item;
+import ru.practicum.shareit.item.entity.Item;
 
 import java.util.List;
 

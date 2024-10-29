@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -7,12 +7,12 @@ import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemMapper;
 import ru.practicum.shareit.item.ecxeptions.ItemNotFoundException;
 import ru.practicum.shareit.item.ecxeptions.PermissionItemException;
-import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.user.UserService;
+import ru.practicum.shareit.item.entity.Item;
+import ru.practicum.shareit.user.entity.User;
+import ru.practicum.shareit.user.service.UserService;
 import ru.practicum.shareit.user.dto.UserMapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,37 +32,34 @@ public class ItemService {
         return itemDao.findAllUserItems(userId).stream().map(ItemMapper::toDto).toList();
     }
 
-    public ItemDto createItem(Item item, Long userId) {
+    public ItemDto createItem(ItemDto itemDto, Long userId) {
         User user = UserMapper.toEntity(userService.getUser(userId));
         if (user == null) {
             throw new ItemNotFoundException(userId);
         }
+        Item item = ItemMapper.toEntity(itemDto);
         item.setOwner(user);
         return ItemMapper.toDto(itemDao.create(item));
     }
 
-    public ItemDto updateItem(Long id, Map<String, Object> updates, Long userId) {
-        Item item = itemDao.get(id);
-        if (item == null) {
+    public ItemDto updateItem(Long id, ItemDto itemDto, Long userId) {
+        Item existedItem = itemDao.get(id);
+        if (existedItem == null) {
             throw new ItemNotFoundException(id);
         }
-        if (!item.getOwner().getId().equals(userId)) {
+        if (!existedItem.getOwner().getId().equals(userId)) {
             throw new PermissionItemException(userId);
         }
-        updates.forEach((key, value) -> {
-            switch (key) {
-                case "name":
-                    item.setName((String) value);
-                    break;
-                case "description":
-                    item.setDescription((String) value);
-                    break;
-                case "available":
-                    item.setAvailable((Boolean) value);
-                    break;
-            }
-        });
-        return ItemMapper.toDto(itemDao.update(item));
+        if (itemDto.getName() != null) {
+            existedItem.setName(itemDto.getName());
+        }
+        if (itemDto.getDescription() != null) {
+            existedItem.setDescription(itemDto.getDescription());
+        }
+        if (itemDto.getAvailable() != null) {
+            existedItem.setAvailable(itemDto.getAvailable());
+        }
+        return ItemMapper.toDto(itemDao.update(existedItem));
     }
 
     public List<ItemDto> searchItems(String searchString) {
