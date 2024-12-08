@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.entity;
+package ru.practicum.shareit.item.comment.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,32 +13,35 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ru.practicum.shareit.item.entity.Item;
 import ru.practicum.shareit.user.entity.User;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
 @EqualsAndHashCode(of = {"id"})
 @Entity
-@Table(name = "items")
-public class Item {
+@Table(name = "comments")
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "description", nullable = false)
-    private String description;
-
-    @Column(name = "available", nullable = false)
-    private Boolean available;
+    @Column(name = "text", nullable = false)
+    private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @ToString.Exclude
-    @JoinColumn(name = "owner_id")
-    private User user;
+    @JoinColumn(name = "item_id")
+    private Item item;
 
-//    private ItemRequest request;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JoinColumn(name = "author_id")
+    private User author;
+
+    @Column(name = "created")
+    private LocalDateTime created;
 }
