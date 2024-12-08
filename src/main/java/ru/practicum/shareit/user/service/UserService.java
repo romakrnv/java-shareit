@@ -1,52 +1,45 @@
 package ru.practicum.shareit.user.service;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.entity.User;
-import ru.practicum.shareit.user.dao.UserDao;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.dto.UserMapper;
-import ru.practicum.shareit.user.exceptions.EmailAlreadyExistsException;
-import ru.practicum.shareit.user.exceptions.UserNotFoundException;
+import ru.practicum.shareit.exception.EmailAlreadyExistsException;
+import ru.practicum.shareit.user.repository.UserRepository;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserDao userDao;
+    private final UserRepository repository;
 
     public UserDto getUser(Long id) {
-        User user = userDao.get(id);
-        if (user == null) {
-            throw new UserNotFoundException(id);
-        }
-        return UserMapper.toDto(user);
+        return UserMapper.toDto(repository.findById(id)
+                .orElseThrow(() -> new NotFoundException(User.class, id)));
     }
 
     public UserDto createUser(UserDto userDto) {
-        if (userDao.emailExist(userDto.getEmail())) {
+        if (repository.findByEmail(userDto.getEmail()).isPresent()) {
             throw new EmailAlreadyExistsException(userDto.getEmail());
         }
-        return UserMapper.toDto(userDao.create(UserMapper.toEntity(userDto)));
+        return UserMapper.toDto(repository.save(UserMapper.toEntity(userDto)));
     }
 
     public UserDto updateUser(Long id, UserDto userDto) {
-        User existedUser = userDao.get(id);
-        if (existedUser == null) {
-            throw new UserNotFoundException(id);
+        if (!StringUtils.isBlank(userDto.getEmail()) && repository.findByEmail(userDto.getEmail()).isPresent()) {
+            throw new EmailAlreadyExistsException(userDto.getEmail());
         }
-        if (userDto.getName() != null) {
-            existedUser.setName(userDto.getName());
-        }
-        if (userDto.getEmail() != null) {
-            if (userDao.emailExist(userDto.getEmail())) {
-                throw new EmailAlreadyExistsException(userDto.getEmail());
-            }
-            existedUser.setEmail(userDto.getEmail());
-        }
-        return UserMapper.toDto(userDao.update(existedUser));
+        return UserMapper.toDto(repository.save(UserMapper.update(findById(id), userDto)));
     }
 
     public void deleteUser(Long id) {
-        userDao.delete(id);
+        repository.delete(findById(id));
+    }
+
+    private User findById(Long userId) {
+        return repository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(User.class, userId));
     }
 }

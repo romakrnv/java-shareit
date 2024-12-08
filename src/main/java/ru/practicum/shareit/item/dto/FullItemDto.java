@@ -1,25 +1,25 @@
 package ru.practicum.shareit.item.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+import ru.practicum.shareit.item.comment.dto.CommentDto;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ItemDto {
+public class FullItemDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     Long id;
-    @NotBlank
     String name;
-    @NotBlank
     String description;
-    @NotNull
     Boolean available;
+    LocalDateTime lastBooking;
+    LocalDateTime nextBooking;
+    List<CommentDto> comments;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @Positive
     Long ownerId;
 }
