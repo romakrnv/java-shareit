@@ -42,10 +42,10 @@ import static java.util.stream.Collectors.toList;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class ItemService {
-    private final ItemRepository repository;
-    private final UserRepository userRepository;
-    private final BookingRepository bookingRepository;
-    private final CommentRepository commentRepository;
+    final ItemRepository repository;
+    final UserRepository userRepository;
+    final BookingRepository bookingRepository;
+    final CommentRepository commentRepository;
 
     @Transactional
     public ItemDto create(Long ownerId, ItemDto itemDto) {

@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) NOT NULL,
     name VARCHAR(100) NOT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id),
-    CONSTRAINT UQ_USER_EMAIL UNIQUE (email)
+    CONSTRAINT uq_user_email UNIQUE (email)
     );
 
 -- CREATE TABLE IF NOT EXISTS requests (

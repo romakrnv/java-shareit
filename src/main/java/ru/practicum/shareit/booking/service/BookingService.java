@@ -31,9 +31,9 @@ import java.util.stream.Collectors;
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor
 public class BookingService {
-    private final BookingRepository repository;
-    private final UserRepository userRepository;
-    private final ItemRepository itemRepository;
+    final BookingRepository repository;
+    final UserRepository userRepository;
+    final ItemRepository itemRepository;
 
     @Transactional
     public BookingDto create(Long userId, NewBookingDto request) {
@@ -87,7 +87,7 @@ public class BookingService {
     @Transactional(readOnly = true)
     public Collection<BookingDto> findAllBookingsByOwnerItems(Long userId, String state) {
         States currentState = States.valueOf(state);
-        User findUser = findUserById(userId);
+        findUserById(userId);
         Collection<Booking> bookingList = switch (currentState) {
             case ALL -> repository.findAllByOwnerId(userId);
             case CURRENT -> repository.findAllCurrentBookingByOwnerId(userId);
