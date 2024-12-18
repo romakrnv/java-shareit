@@ -33,7 +33,6 @@ import static org.hamcrest.Matchers.hasSize;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @SpringBootTest(
-        properties = "spring.datasource.username=shareit",
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class ItemRequestServiceIntegrationTest {
     private final EntityManager em;

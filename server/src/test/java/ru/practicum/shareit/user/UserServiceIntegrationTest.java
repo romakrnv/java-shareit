@@ -21,7 +21,6 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @SpringBootTest(
-        properties = "spring.datasource.username=shareit",
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class UserServiceIntegrationTest {
     private final EntityManager em;
