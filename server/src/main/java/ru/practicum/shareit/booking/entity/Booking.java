@@ -11,8 +11,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import ru.practicum.shareit.booking.enums.Statuses;
@@ -26,6 +28,8 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode(of = {"id"})
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "bookings")
 public class Booking {
     @Id

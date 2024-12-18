@@ -106,6 +106,11 @@ public class ItemService {
     @Transactional
     public void delete(Long ownerId, Long itemId) {
         Item item = findById(itemId);
+        User findUser = findUserById(ownerId);
+
+        if (!findUser.getId().equals(ownerId)) {
+            throw new PermissionException(ownerId);
+        }
         repository.delete(item);
     }
 
